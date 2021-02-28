@@ -28,7 +28,6 @@ function App() {
             />
           }
         />
-        <Foods />
         <Route
           exact
           path="/orders">
