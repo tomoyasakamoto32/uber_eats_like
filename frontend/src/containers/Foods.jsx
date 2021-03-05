@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useReducer } from 'react';
+import React, { Fragment, useEffect, useReducer, useState} from 'react';
 import styled from 'styled-components'
 import { Link } from "react-router-dom";
 
@@ -63,6 +63,12 @@ export const Foods = ({
   match
 }) => {
   const [foodsState, dispatch] = useReducer(foodsReducer, foodsInitialState);
+  const initialState = {
+    isOpenOrderDialog: false,
+    selectedFood: null,
+    selectedFoodCount: 1,
+  }
+  const [state, setState] = useState(initialState);
 
   useEffect(() => {
     dispatch({ type: foodsActionTypes.FETCHING });
@@ -106,7 +112,13 @@ export const Foods = ({
               <ItemWrapper key={food.id}>
                 <FoodWrapper
                   food={food}
-                  onClickFoodWrapper={(food) => console.log(food)}
+                  onClickFoodWrapper={
+                    (food) => setState({
+                      ...state,
+                      isOpenOrderDialog: true,
+                      selectedFood: food,
+                    })
+                  }
                   imageUrl={FoodImage}
                 />
               </ItemWrapper>
