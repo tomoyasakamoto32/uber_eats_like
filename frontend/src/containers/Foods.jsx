@@ -1,12 +1,12 @@
-import React, { Fragment, useEffect, useReducer, useState} from 'react';
-import styled from 'styled-components'
+import React, { Fragment, useEffect, useReducer, useState } from 'react';
+import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
 
 import { LocalMallIcon } from '../components/Icons';
 import { FoodWrapper } from '../components/FoodWrapper';
 import Skeleton from '@material-ui/lab/Skeleton';
-
+import { FoodOrderDialog } from '../components/FoodOrderDialog';
 // --- ここから追加 ---
 // reducers
 import {
@@ -112,19 +112,28 @@ export const Foods = ({
               <ItemWrapper key={food.id}>
                 <FoodWrapper
                   food={food}
-                  onClickFoodWrapper={
-                    (food) => setState({
-                      ...state,
-                      isOpenOrderDialog: true,
-                      selectedFood: food,
-                    })
-                  }
+                  onClickFoodWrapper={(food) => setState({
+                    ...state,
+                    selectedFood: food,
+                    isOpenOrderDialog: true,
+                  })}
                   imageUrl={FoodImage}
                 />
               </ItemWrapper>
             )
         }
       </FoodsList>
+      {
+        state.isOpenOrderDialog &&
+          <FoodOrderDialog
+            food={state.selectedFood}
+            isOpen={state.isOpenOrderDialog}
+            onClose={() => setState({
+              ...state,
+              isOpenOrderDialog: false,
+            })}
+          />
+      }
     </Fragment>
   )
 }
