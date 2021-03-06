@@ -1,6 +1,8 @@
 // --- 次でuseEffectを追加 ---
 import React, { Fragment, useEffect, useReducer } from 'react';
 
+import { postOrder } from '../apis/orders';
+
 import { fetchLineFoods } from '../apis/line_foods';
 // --- ここから追加 ---
 import {
@@ -9,6 +11,16 @@ import {
   lineFoodsReducer,
 } from '../reducers/lineFoods';
 // --- ここまで追加 ---
+
+const postLineFoods = () => {
+  dispatch({ type: lineFoodsActionTyps.POSTING });
+  postOrder({
+    line_food_ids: state.lineFoodsSummary.line_food_ids,
+  }).then(() => {
+    dispatch({ type: lineFoodsActionTyps.POST_SUCCESS });
+    window.location.reload();
+  });
+};
 
 export const Orders = () => {
   // --- ここから追加 ---
